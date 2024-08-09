@@ -29,6 +29,11 @@ variable "vm_size" {
   type        = string
 }
 
+variable "db_vm_size" {
+  description = "The size of the DB VM"
+  type        = string
+}
+
 variable "web_vm_count" {
   description = "Number of web VMs"
 
@@ -42,10 +47,13 @@ variable "db_subnet_id" {
   description = "ID of the database subnet"
 }
 
-
-
 variable "os_disk" {
   description = "The os disk size in GB"
+  type        = string
+}
+
+variable "avset_name" {
+  description = "Name of the availability set"
   type        = string
 }
 

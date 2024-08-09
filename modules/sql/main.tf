@@ -1,17 +1,17 @@
 data "azurerm_client_config" "current" {}
 
-resource "azurerm_user_assigned_identity" "example" {
+resource "azurerm_user_assigned_identity" "zenpay_identity" {
   name                = var.user_assigned_identity_name
   location            = var.location
   resource_group_name = var.resource_group_name
 }
 
-resource "azurerm_key_vault" "example" {
+resource "azurerm_key_vault" "zenpay_key_vault" {
   name                        = var.key_vault_name
   location                    = var.location
   resource_group_name         = var.resource_group_name
   enabled_for_disk_encryption = true
-  tenant_id                   = azurerm_user_assigned_identity.example.tenant_id
+  tenant_id                   = azurerm_user_assigned_identity.zenpay_identity.tenant_id
   soft_delete_retention_days  = 7
   purge_protection_enabled    = true
   sku_name                    = "standard"
@@ -32,16 +32,16 @@ resource "azurerm_key_vault" "example" {
   }
 
   access_policy {
-    tenant_id = azurerm_user_assigned_identity.example.tenant_id
-    object_id = azurerm_user_assigned_identity.example.principal_id
+    tenant_id = azurerm_user_assigned_identity.zenpay_identity.tenant_id
+    object_id = azurerm_user_assigned_identity.zenpay_identity.principal_id
     key_permissions = ["Get", "WrapKey", "UnwrapKey"]
   }
 }
 
-resource "azurerm_key_vault_key" "example" {
-  depends_on = [azurerm_key_vault.example]
+resource "azurerm_key_vault_key" "zenpay_key_vault_key" {
+  depends_on = [azurerm_key_vault.zenpay_key_vault]
   name       = var.transparent_data_encryption_key_name
-  key_vault_id = azurerm_key_vault.example.id
+  key_vault_id = azurerm_key_vault.zenpay_key_vault.id
   key_type   = "RSA"
   key_size   = 2048
   key_opts   = ["unwrapKey", "wrapKey"]

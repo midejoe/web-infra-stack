@@ -1,11 +1,11 @@
 resource "azurerm_recovery_services_vault" "zenpay_recovery_vault" {
-  name                = var.recovery_vault_name #"zenpayrecoveryvault"
+  name                = var.recovery_vault_name 
   location            = var.location
   resource_group_name = var.resource_group_name
   sku                 = "Standard"
 }
 resource "azurerm_backup_policy_vm" "vm_backup_policy" {
-  name                =  var.backup_policy_name #vm-backup-policy"
+  name                =  var.backup_policy_name
   resource_group_name = var.resource_group_name
   recovery_vault_name = azurerm_recovery_services_vault.zenpay_recovery_vault.name
 
@@ -33,8 +33,8 @@ resource "azurerm_backup_policy_vm" "vm_backup_policy" {
    }
 
 resource "azurerm_security_center_contact" "security_contact" {
-  email               = var.security-contact-email #"midejoseph24@gmail.com"
-  phone               = var.security-contact-phone #"+2348122662392"
+  email               = var.security-contact-email
+  phone               = var.security-contact-phone 
   alert_notifications = true
   alerts_to_admins    = true
 }
@@ -46,7 +46,7 @@ resource "azurerm_security_center_auto_provisioning" "auto_provisioning" {
 
 
 resource "azurerm_log_analytics_workspace" "securitypostlog" {
-  name                = var.log-analytics-name #"security-posture-log-analytics"
+  name                = var.log-analytics-name
   location            = var.location
   resource_group_name = var.resource_group_name
   sku                 = "PerGB2018"
