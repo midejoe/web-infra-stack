@@ -63,15 +63,15 @@ variable "db_vm_size" {
 }
 
 
-variable "os_disk" {
-  description = "Os disk size of the virtual machine for database"
+variable "web_os_disk" {
+  description = "Os disk size of the virtual machine for webapp"
   type        = number
 }
 
-# variable "web_os_disk" {
-#   description = "Os disk size of the virtual machine for web app"
-#   type        = number
-# }
+variable "db_os_disk" {
+  description = "Os disk size of the virtual machine for the database"
+  type        = number
+}
 
 variable "avset_name" {
   description = "Name of the availability set"

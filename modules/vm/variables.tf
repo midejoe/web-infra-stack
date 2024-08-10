@@ -47,8 +47,13 @@ variable "db_subnet_id" {
   description = "ID of the database subnet"
 }
 
-variable "os_disk" {
-  description = "The os disk size in GB"
+variable "web_os_disk" {
+  description = "The web OS disk size in GB"
+  type        = string
+}
+
+variable "db_os_disk" {
+  description = "The db OS disk size in GB"
   type        = string
 }
 

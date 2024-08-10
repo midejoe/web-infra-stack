@@ -65,8 +65,8 @@ module "vm" {
   windows_image_version   = var.windows_image_version
   vm_size                 = var.vm_size
   db_vm_size              = var.db_vm_size
-  os_disk                 = var.os_disk
-  #db_os_disk = var.db_os_disk
+  web_os_disk             = var.web_os_disk
+  db_os_disk              = var.db_os_disk
   avset_name              = var.avset_name
 
   depends_on = [module.subnet, module.nsg]

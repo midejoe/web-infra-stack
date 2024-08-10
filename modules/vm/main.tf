@@ -32,7 +32,7 @@ resource "azurerm_windows_virtual_machine" "web" {
   os_disk {
     caching              = "ReadWrite"
     storage_account_type = "Premium_LRS"
-    disk_size_gb         = var.os_disk #var.web_os_disk
+    disk_size_gb         = var.web_os_disk 
   }
 
   source_image_reference {
@@ -67,7 +67,7 @@ resource "azurerm_windows_virtual_machine" "db" {
   os_disk {
     caching              = "ReadWrite"
     storage_account_type = "Premium_LRS"
-    disk_size_gb         = var.os_disk #var.db_os_disk
+    disk_size_gb         = var.db_os_disk 
   }
 
   source_image_reference {
