@@ -7,6 +7,11 @@ variable "location" {
 
 }
 
+variable "vnet_name" {
+  description = "The Virtual network name"
+  type        = string
+}
+
 variable "vnet_address_space" {
   description = "Address space for the Virtual Network"
 }
@@ -59,9 +64,14 @@ variable "db_vm_size" {
 
 
 variable "os_disk" {
-  description = "Os disk size of the virtual machine"
+  description = "Os disk size of the virtual machine for database"
   type        = number
 }
+
+# variable "web_os_disk" {
+#   description = "Os disk size of the virtual machine for web app"
+#   type        = number
+# }
 
 variable "avset_name" {
   description = "Name of the availability set"

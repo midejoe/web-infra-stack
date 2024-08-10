@@ -55,6 +55,6 @@ resource "azurerm_log_analytics_workspace" "securitypostlog" {
   }
 
 resource "azurerm_security_center_workspace" "securityposturews" {
-  scope                = var.resource_group_name
+  scope                = var.rg_scope
   workspace_id         = azurerm_log_analytics_workspace.securitypostlog.id
 }

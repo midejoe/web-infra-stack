@@ -19,7 +19,7 @@ module "resource_group" {
 ###virtual network module####
 module "vnet" {
   source              = "./modules/vnet"
-  vnet_name           = "main-vnet"
+  vnet_name           = var.vnet_name #"main-vnet"
   address_space       = var.vnet_address_space
   location            = var.location
   resource_group_name = var.resource_group_name
@@ -31,11 +31,11 @@ module "vnet" {
 module "subnet" {
   source               = "./modules/subnet"
   resource_group_name  = var.resource_group_name
-  vnet_name            = "main-vnet"
+  vnet_name            = var.vnet_name #"main-vnet"
   location             = var.location
-  web_subnet_address   = "10.0.1.0/24"
-  db_subnet_address    = "10.0.2.0/24"
-  appgw_subnet_address = "10.0.3.0/24"
+  web_subnet_address   = var.web_subnet_address   #"10.0.1.0/24"
+  db_subnet_address    = var.db_subnet_address    #"10.0.2.0/24"
+  appgw_subnet_address = var.appgw_subnet_address #"10.0.3.0/24"
 
   depends_on = [module.vnet]
 }
@@ -66,6 +66,7 @@ module "vm" {
   vm_size                 = var.vm_size
   db_vm_size              = var.db_vm_size
   os_disk                 = var.os_disk
+  #db_os_disk = var.db_os_disk
   avset_name              = var.avset_name
 
   depends_on = [module.subnet, module.nsg]
@@ -107,11 +108,12 @@ module "backup_and_security" {
   source                 = "./modules/backup"
   location               = var.location
   resource_group_name    = var.resource_group_name
-  recovery_vault_name    = var.recovery_vault_name    #"zenpayrecoveryvault"
-  backup_policy_name     = var.backup_policy_name     #"vm-backup-policy"
-  security-contact-email = var.security-contact-email #"midejoseph24@gmail.com"
-  security-contact-phone = var.security-contact-phone #"+2348122662392"
-  log-analytics-name     = var.log-analytics-name     #"security-posture-log-analytics"
+  rg_scope               = module.resource_group.resource_group_id
+  recovery_vault_name    = var.recovery_vault_name
+  backup_policy_name     = var.backup_policy_name
+  security-contact-email = var.security-contact-email
+  security-contact-phone = var.security-contact-phone
+  log-analytics-name     = var.log-analytics-name
 }
 
 
@@ -127,5 +129,5 @@ module "sql" {
   administrator_login_password         = var.administrator_login_password
   transparent_data_encryption_key_name = var.transparent_data_encryption_key_name
 
-  depends_on = [module.resource_group]
+  depends_on = [module.resource_group, module.nsg]
 }

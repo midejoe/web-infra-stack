@@ -1,3 +1,8 @@
+variable "rg_scope" {
+  description = "The Resource group id"
+  type        = string
+}
+
 variable "recovery_vault_name" {
   description = "The name of the Recovery Services Vault."
   type        = string

@@ -26,9 +26,11 @@ The project is modularized with each component being a separate module. The modu
 1. Clone the repository.
 2. Navigate to the project root directory.
 3. Create a `terraform.tfvars` file (or modify the existing one) with your own values.
+NB:  Key vault name may only contain alphanumeric characters and dashes and must be between 3-24 chars
 4. Run the following Terraform commands:
 
 ```bash
 terraform init
+terraform validate
 terraform plan
-terraform apply
+terraform apply --auto-approve
