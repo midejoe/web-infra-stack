@@ -57,15 +57,15 @@ resource "azurerm_mssql_server" "zenpaydatabase" {
   minimum_tls_version          = "1.2"
 
   azuread_administrator {
-    login_username = azurerm_user_assigned_identity.example.name
-    object_id      = azurerm_user_assigned_identity.example.principal_id
+    login_username = azurerm_user_assigned_identity.zenpay_identity.name
+    object_id      = azurerm_user_assigned_identity.zenpay_identity.principal_id
   }
 
   identity {
     type         = "UserAssigned"
-    identity_ids = [azurerm_user_assigned_identity.example.id]
+    identity_ids = [azurerm_user_assigned_identity.zenpay_identity.id]
   }
 
-  primary_user_assigned_identity_id            = azurerm_user_assigned_identity.example.id
-  transparent_data_encryption_key_vault_key_id = azurerm_key_vault_key.example.id
+  primary_user_assigned_identity_id            = azurerm_user_assigned_identity.zenpay_identity.id
+  transparent_data_encryption_key_vault_key_id = azurerm_key_vault_key.zenpay_key_vault_key.id
 }
