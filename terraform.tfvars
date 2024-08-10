@@ -1,4 +1,4 @@
-resource_group_name = "web-infrastructure-rg"
+resource_group_name = "web-infra-rg"
 location            = "Central US"
 
 #vnet values
@@ -14,7 +14,7 @@ windows_image_publisher = "MicrosoftWindowsServer"
 windows_image_offer     = "WindowsServer"
 windows_image_sku       = "2019-Datacenter"
 windows_image_version   = "latest"
-web_vm_size                 = "Standard_D2s_v3"
+web_vm_size             = "Standard_D2s_v3"
 db_vm_size              = "Standard_D4s_v3"
 web_os_disk             = 128
 db_os_disk              = 256
@@ -46,8 +46,8 @@ security-contact-email = "midejoseph24@gmail.com"
 security-contact-phone = "+2348122662392"
 log-analytics-name     = "security-posture-log-analytics"
 
-key_vault_name                       = "zenpaykeyweb76example"
-user_assigned_identity_name          = "zenpaymanagedid"
+key_vault_name                       = "zenpaykeyweb46example"
+user_assigned_identity_name          = "zenpaymanaagedid"
 sql_server_name                      = "zenpaydata"
 administrator_login                  = "adminuser"
 administrator_login_password         = "ySafe11@@@567"

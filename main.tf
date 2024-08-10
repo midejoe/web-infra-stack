@@ -31,11 +31,11 @@ module "vnet" {
 module "subnet" {
   source               = "./modules/subnet"
   resource_group_name  = var.resource_group_name
-  vnet_name            = var.vnet_name 
+  vnet_name            = var.vnet_name
   location             = var.location
-  web_subnet_address   = var.web_subnet_address   
-  db_subnet_address    = var.db_subnet_address    
-  appgw_subnet_address = var.appgw_subnet_address 
+  web_subnet_address   = var.web_subnet_address
+  db_subnet_address    = var.db_subnet_address
+  appgw_subnet_address = var.appgw_subnet_address
 
   depends_on = [module.vnet]
 }
@@ -63,7 +63,7 @@ module "vm" {
   windows_image_offer     = var.windows_image_offer
   windows_image_sku       = var.windows_image_sku
   windows_image_version   = var.windows_image_version
-  web_vm_size                 = var.web_vm_size
+  web_vm_size             = var.web_vm_size
   db_vm_size              = var.db_vm_size
   web_os_disk             = var.web_os_disk
   db_os_disk              = var.db_os_disk
@@ -120,8 +120,8 @@ module "backup_and_security" {
 module "sql" {
   source = "./modules/sql"
 
-  location                             = module.resource_group.resource_group_location
-  resource_group_name                  = module.resource_group.resource_group_name
+  location                             = var.location            #module.resource_group.resource_group_location
+  resource_group_name                  = var.resource_group_name #module.resource_group.resource_group_name
   key_vault_name                       = var.key_vault_name
   user_assigned_identity_name          = var.user_assigned_identity_name
   sql_server_name                      = var.sql_server_name
@@ -129,5 +129,5 @@ module "sql" {
   administrator_login_password         = var.administrator_login_password
   transparent_data_encryption_key_name = var.transparent_data_encryption_key_name
 
-  depends_on = [module.resource_group]
+  depends_on = [module.resource_group, module.nsg, module.backup_and_security, module.appgateway]
 }
