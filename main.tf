@@ -106,8 +106,8 @@ module "appgateway" {
 ###backup and security module####
 module "backup_and_security" {
   source                 = "./modules/backup"
-  location               = var.location
-  resource_group_name    = var.resource_group_name
+  location               = module.resource_group.resource_group_location
+  resource_group_name    = module.resource_group.resource_group_name
   rg_scope               = module.resource_group.resource_group_id
   recovery_vault_name    = var.recovery_vault_name
   backup_policy_name     = var.backup_policy_name
@@ -120,8 +120,8 @@ module "backup_and_security" {
 module "sql" {
   source = "./modules/sql"
 
-  location                             = var.location
-  resource_group_name                  = var.resource_group_name
+  location                             = module.resource_group.resource_group_location
+  resource_group_name                  = module.resource_group.resource_group_name
   key_vault_name                       = var.key_vault_name
   user_assigned_identity_name          = var.user_assigned_identity_name
   sql_server_name                      = var.sql_server_name
