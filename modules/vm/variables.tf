@@ -52,11 +52,6 @@ variable "os_disk" {
   type        = string
 }
 
-variable "avset_name" {
-  description = "Name of the availability set"
-  type        = string
-}
-
 variable "windows_image_publisher" {
   description = "The image publisher"
   type        = string
