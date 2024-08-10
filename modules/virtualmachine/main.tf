@@ -24,7 +24,7 @@ resource "azurerm_windows_virtual_machine" "web" {
   location            = var.location
   resource_group_name = var.resource_group_name
   network_interface_ids = [azurerm_network_interface.web[count.index].id]
-  size                = var.vm_size 
+  size                = var.web_vm_size 
   availability_set_id = azurerm_availability_set.dev-zenpay-web.id
   admin_username      = var.admin_username
   admin_password      = var.admin_password

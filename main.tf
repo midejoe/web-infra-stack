@@ -11,15 +11,15 @@ data "azurerm_client_config" "owner" {}
 
 ##resource group module####
 module "resource_group" {
-  source              = "./modules/rg"
+  source              = "./modules/resourcegroup"
   resource_group_name = var.resource_group_name
   location            = var.location
 }
 
 ###virtual network module####
 module "vnet" {
-  source              = "./modules/vnet"
-  vnet_name           = var.vnet_name #"main-vnet"
+  source              = "./modules/virtualnetwork"
+  vnet_name           = var.vnet_name
   address_space       = var.vnet_address_space
   location            = var.location
   resource_group_name = var.resource_group_name
@@ -31,29 +31,29 @@ module "vnet" {
 module "subnet" {
   source               = "./modules/subnet"
   resource_group_name  = var.resource_group_name
-  vnet_name            = var.vnet_name #"main-vnet"
+  vnet_name            = var.vnet_name 
   location             = var.location
-  web_subnet_address   = var.web_subnet_address   #"10.0.1.0/24"
-  db_subnet_address    = var.db_subnet_address    #"10.0.2.0/24"
-  appgw_subnet_address = var.appgw_subnet_address #"10.0.3.0/24"
+  web_subnet_address   = var.web_subnet_address   
+  db_subnet_address    = var.db_subnet_address    
+  appgw_subnet_address = var.appgw_subnet_address 
 
   depends_on = [module.vnet]
 }
 
 ###nsg module####
 module "nsg" {
-  source              = "./modules/nsg"
-  location            = var.location
+  source              = "./modules/networksecuritygroup"
+  location            = module.resource_group.resource_group_location
   nsg_name            = var.nsg_name
-  resource_group_name = var.resource_group_name
+  resource_group_name = module.resource_group.resource_group_name
   web_subnet_address  = var.web_subnet_address
 }
 
 ###vm module####
 module "vm" {
-  source                  = "./modules/vm"
-  location                = var.location
-  resource_group_name     = var.resource_group_name
+  source                  = "./modules/virtualmachine"
+  location                = module.resource_group.resource_group_location
+  resource_group_name     = module.resource_group.resource_group_name
   web_subnet_id           = module.subnet.web_subnet_id
   db_subnet_id            = module.subnet.db_subnet_id
   admin_username          = var.admin_username
@@ -63,7 +63,7 @@ module "vm" {
   windows_image_offer     = var.windows_image_offer
   windows_image_sku       = var.windows_image_sku
   windows_image_version   = var.windows_image_version
-  vm_size                 = var.vm_size
+  web_vm_size                 = var.web_vm_size
   db_vm_size              = var.db_vm_size
   web_os_disk             = var.web_os_disk
   db_os_disk              = var.db_os_disk
@@ -74,9 +74,9 @@ module "vm" {
 
 ###loadbalancer module####
 module "loadbalancer" {
-  source                         = "./modules/lb"
-  location                       = var.location
-  resource_group_name            = var.resource_group_name
+  source                         = "./modules/loadbalancer"
+  location                       = module.resource_group.resource_group_location
+  resource_group_name            = module.resource_group.resource_group_name
   public_ip_name                 = var.public_ip_name
   lb_name                        = var.lb_name
   frontend_ip_configuration_name = var.frontend_ip_configuration_name
@@ -88,10 +88,10 @@ module "loadbalancer" {
 
 ###app gateway module####
 module "appgateway" {
-  source              = "./modules/appgw"
+  source              = "./modules/applicationgateway"
   appgw-name          = var.appgw-name
-  location            = var.location
-  resource_group_name = var.resource_group_name
+  location            = module.resource_group.resource_group_location
+  resource_group_name = module.resource_group.resource_group_name
   sku_name            = var.sku_name
   tier                = var.tier
   capacity            = var.capacity
@@ -105,7 +105,7 @@ module "appgateway" {
 
 ###backup and security module####
 module "backup_and_security" {
-  source                 = "./modules/backup"
+  source                 = "./modules/backup-security"
   location               = module.resource_group.resource_group_location
   resource_group_name    = module.resource_group.resource_group_name
   rg_scope               = module.resource_group.resource_group_id
@@ -129,5 +129,5 @@ module "sql" {
   administrator_login_password         = var.administrator_login_password
   transparent_data_encryption_key_name = var.transparent_data_encryption_key_name
 
-  depends_on = [module.resource_group, module.nsg]
+  depends_on = [module.resource_group]
 }

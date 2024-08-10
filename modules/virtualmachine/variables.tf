@@ -24,7 +24,7 @@ variable "admin_password" {
   type        = string
 }
 
-variable "vm_size" {
+variable "web_vm_size" {
   description = "The size of the VM"
   type        = string
 }

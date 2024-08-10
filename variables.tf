@@ -52,7 +52,7 @@ variable "windows_image_version" {
   type        = string
 }
 
-variable "vm_size" {
+variable "web_vm_size" {
   description = "Size of the virtual machine"
   type        = string
 }
